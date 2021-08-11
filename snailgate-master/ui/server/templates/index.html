@@ -1,0 +1,17 @@
+<!doctype html>
+<title>Snailgate</title>
+<script>
+
+  window.scenarios = {{ scenarios|tojson }};
+  {% if scenario is not none %}
+    window.scenario = '{{ scenario }}';
+    window.scenarioJson = {{ scenarioJson|tojson }};
+  {% endif %}
+</script>
+
+{% if static_js %}
+  <script defer src='{{ url_for('static', filename='bundle.js') }}' ></script>
+{% else %}
+  <script defer src='//localhost:8080/bundle.js'></script>
+{% endif %}
+<div id="main" />

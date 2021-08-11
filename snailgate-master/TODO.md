@@ -1,0 +1,38 @@
+# TODO
+
+- [x] Plot all parts of the force (as options)
+- [x] Implicit integration
+- [x] Split edge into 50/100
+- [x] Have an option to select everyting in the segment
+- [x] Display of test files to load
+- [x] Time step in part of seconds
+- [x] Option for water raising at rate per second
+- [x] When specify rope - say what's the maximum length (not necessarily what's drawn)
+- [x] Special nodes that are floating elements (if above water dont do anything.  if below water have vertical force) (look at Make it Float paper? this could be a v2 for accurate representation)
+- [x] When get simulation from server, show it in UI immediately (for cases where we have 5 minute simulations)
+- [x] Mass of each node/boyancy (to compare with water density)
+- [x] Be able to fix any vertex/anchor
+- [x] Test different subdivision levels
+- [x] Random sampling of vertex positions
+- [x] Save result of simulation
+- [x] Fix bug where edge leaves water, water pressure force is massive
+- [ ] Be able to run batch simulations for testing, and then load them into the UI
+- [ ] for cleaner code - sort free/fixed verteces at start of simulation
+- [x] be able to move verteces
+- [x] Investigate performance (Is it possible that it's sending the data to the UI)
+- [x] Add force to counter forces if below ground, which is proportional to the distance below ground
+- [ ] Zero out pressure for when its below the ground
+- [ ] Figure out real gravity force
+- [x] Be able to automatically generate watergate with fully open angle, rest angle, length of watergate, and number of verteces.  Rope would exist per each vertex.  Number that specifies number of ropes. Code to generate it should be in python.
+- [x] Be able to automatically generate "snailgate structures" that are stackable (with examples)
+- [x] Implement Quasi-static simulation
+- [ ] Find better way of split snailgate edges, so all small edges have similar size
+- [ ] Write information about all forces implemented in our physics model document
+- [ ] Describe simulation in more details in our simulation description document
+- [ ] Figure out best way to deal with gravity forces and mass. Should we add gravity according to edge size? Mass is not considered currently when computing acceleration (i.e. in F = m * a, we always consider m equal to 1).
+- [x] Implement structure where the size of horizontal ropes is reduced when increasing layers
+- [ ] Remove buoy radius from UI + make the force binary (not dependent on area portion under water) + keep geometry as a tool for barring water
+- [ ] Change big buoys (leveling and curvature buoys) by smaller ones, splitting rope into small pieces
+- [ ] Make boyant either circle or square
+- [ ] Fix only right vertex
+- [ ] (bonus) Add weight to vertex

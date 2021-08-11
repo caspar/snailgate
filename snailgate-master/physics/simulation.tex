@@ -1,0 +1,116 @@
+\documentclass[12pt]{article}
+
+\renewcommand*\familydefault{\sfdefault}
+
+\usepackage[left=1in,right=1in,top=1in,bottom=1in]{geometry}
+\usepackage{graphics,epsfig,graphicx,float,subfigure,color}
+\usepackage{algorithm,algorithmic}
+\usepackage{amsmath,amssymb,amsbsy,amsfonts,amsthm}
+\usepackage{listings}
+\usepackage{color} %red, green, blue, yellow, cyan, magenta, black, white
+
+\title{Snailgate: Summary of Simulation}
+
+\begin{document}
+
+\maketitle
+
+\section{Physics Problem}
+We are trying to solve the following problem:
+\begin{align*}
+  m \ddot{u} = R(u) \text{, for each node}
+\end{align*}
+, where $m$ is the mass, $u(t)$ represents position of the node through time and $R(u)$ is the resulting force on the node. Notice that the force on the node $R(u)$ is affected by the position of all other nodes in the system and also from gravity, water level and others.
+
+Since the mass is constant, we could consider it equal to $1$ and work with the following formula:
+\begin{align*}
+  \ddot{u} = R(u)
+\end{align*}
+
+But this is a second order ODE. To make it easier to solve, we first transform it in a first order ODE by declaring velocity $v$ as $v(t) = \dot{u}(t)$.
+
+Then, we have the following system for each node:
+\begin{align*}
+  \begin{cases}
+    \dot{u} = v\\
+    \dot{v} = R(u)\\
+  \end{cases} \text{, for each node}
+\end{align*}
+
+Now, we have a first order system of ODEs. Notice that this two equations repeat for all nodes in our simulation, so the size of the system depends on the discretization that we use. A fine discretization creates a larger (and probably more difficult) system to solve.
+
+Since we are dealing with a 2 dimensional problem, we need to represent values on $x$ and $y$ directions. A way of doing this is considering $u = (u_x, u_y)$ and $v = (v_x, v_y)$ and using this variables in the system. So, for each node, we end up with four variables.
+
+Consider now that we have a large vector containing all $u$ and $v$ variables for all nodes. We have then:
+\begin{align*}
+  U = \begin{bmatrix}
+    \vdots\\
+    u^{(i)}_x\\
+    u^{(i)}_y\\
+    v^{(i)}_x\\
+    v^{(i)}_y\\
+    u^{(i+1)}_x\\
+    u^{(i+1)}_y\\
+    v^{(i+1)}_x\\
+    v^{(i+1)}_y\\
+    \vdots\\
+  \end{bmatrix}
+  \text{ and }
+  F = \begin{bmatrix}
+    \vdots\\
+    v^{(i)}_x\\
+    v^{(i)}_y\\
+    R^{(i)}_x\\
+    R^{(i)}_y\\
+    v^{(i+1)}_x\\
+    v^{(i+1)}_y\\
+    R^{(i+1)}_x\\
+    R^{(i+1)}_y\\
+    \vdots\\
+  \end{bmatrix}
+\end{align*}
+
+Finally, we can represent our first order ODE system as:
+\begin{align*}
+U'(t) = F(U)  
+\end{align*}
+
+\section{Resolution methods}
+With this formulation, it is easy to write Forward and Backward methods for this problems.
+
+\subsection{Forward Euler (Explicit method)}
+In the case of Forward Euler, we simply discretize and approximate the derivative on the left side of equation $U'(t) = F(U)$:
+\begin{align*}
+  \frac{U(t+k) - U(t)}{k} = F(U(t))\\
+  \frac{U^{n+1} - U{n}}{k} = F(U^n)\\
+  U^{n+1} = U^{n} + k F(U^n)
+\end{align*}
+
+Notice that, when solving for time $t+k$ (which corresponds to iteration $n+1$) we can solve $U$ explicitly by simply using the value of $U^n$ and applying $F$ on it.
+
+\subsection{Backward Euler (Implicit method)}
+In the case of Backward Euler, we aim to use $F$ applied on the future iteration. Then, it is not possible to solve $U^{n+1} = U(t+k)$ explicitly and we have to solve the system below:
+\begin{align*}
+  \frac{U(t+k) - U(t)}{k} = F(U(t+k))\\
+  \frac{U^{n+1} - U{n}}{k} = F(U^{n+1})\\
+  U^{n+1} = U^{n} + k F(U^{n+1})\\
+\end{align*}
+
+Notice that if $F$ is linear, meaning that $F(U^{n+1}) = A U^{n+1}$ for some matrix $A$, we would have a linear system $(I - k A)U^{n+1} = U^{n}$.
+
+However, since we are dealing with water pressure and elasticity, which do not give rise to linear forces, we have to solve a nonlinear system:
+\begin{align*}
+  U^{n+1} - U^{n} - k F(U^{n+1}) = 0\\
+  G(U^{n+1}) = 0
+\end{align*}
+
+Thus, we are basically searching for values of $U^{n+1}$ for which $G(U^{n+1})$ is $0$. For solving this, we can make use of known literature techniques as the famous Newton method for nonlinear systems.
+
+
+
+
+
+
+
+
+\end{document}

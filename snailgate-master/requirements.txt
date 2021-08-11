@@ -1,0 +1,14 @@
+numpy
+#
+####### example-requirements.txt #######
+#
+
+###### Requirements with Version Specifiers ######
+#   See https://www.python.org/dev/peps/pep-0440/#version-specifiers
+flask >= 0.12.1
+scipy >= 1.6.0
+matplotlib >= 2.0.0
+python-dateutil >= 2.2
+flask-socketio >= 2.8.6
+click >= 6.7
+#
