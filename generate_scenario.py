@@ -29,13 +29,13 @@ def point_between(start, end, total, index):
 @click.option('--open-angle', help='Full open angle', type=float, prompt=True)
 @click.option('--rest-angle', help='Rest angle', type=float, prompt=True)
 @click.option('--length', help='Length of watergate', type=float, prompt=True)
-@click.option('--verteces', help='Number of verteces per edge', type=int, prompt=True)
+@click.option('--vertices', help='Number of vertices per edge', type=int, prompt=True)
 @click.option('--boyant-radius', help='Boyant radius of each vertex', default=0.05, type=float)
 @click.option('--ropes', help='Number of ropes', type=int, prompt=True)
 @click.option('--water-level', help='Starting water level', default=1.0, type=float)
 @click.option('--open-in-browser', is_flag=True)
 @click.argument('filename')
-def generate_scenario(open_angle, rest_angle, length, verteces, boyant_radius, ropes, water_level, open_in_browser, filename):
+def generate_scenario(open_angle, rest_angle, length, vertices, boyant_radius, ropes, water_level, open_in_browser, filename):
     scenario = Scenario(water_level)
 
     scenario.add_vertex(hinge_point, FIXED, 0.0)
@@ -43,19 +43,19 @@ def generate_scenario(open_angle, rest_angle, length, verteces, boyant_radius, r
     end_floor = [hinge_point[0] + length, 0.0]
     end_gate = get_end_point(length, math.radians(rest_angle))
 
-    # build floor verteces
+    # build floor vertices
     last_vertex = 0
-    for n in range(1, verteces + 1):
-        new_point = point_between(hinge_point, end_floor, verteces, n)
+    for n in range(1, vertices + 1):
+        new_point = point_between(hinge_point, end_floor, vertices, n)
         scenario.add_vertex(new_point, FIXED, 0.0)
         second_vertex = len(scenario.vertices) - 1
         scenario.add_edge([last_vertex, second_vertex], SPRING)
         last_vertex = second_vertex
     
-    # build gate verteces
+    # build gate vertices
     last_vertex = 0
-    for n in range(1, verteces + 1):
-        new_point = point_between(hinge_point, end_gate, verteces, n)
+    for n in range(1, vertices + 1):
+        new_point = point_between(hinge_point, end_gate, vertices, n)
         scenario.add_vertex(new_point, NOT_FIXED, boyant_radius)
         second_vertex = len(scenario.vertices) - 1
         scenario.add_edge([last_vertex, second_vertex], SPRING)
@@ -64,16 +64,16 @@ def generate_scenario(open_angle, rest_angle, length, verteces, boyant_radius, r
     end_gate_open = get_end_point(length, math.radians(open_angle))
     remove_every_rope = None
     if ropes is not None:
-        remove_every_rope = math.ceil(float(verteces) / ropes)
+        remove_every_rope = math.ceil(float(vertices) / ropes)
 
     # add ropes
-    for n in range(1, verteces + 1):
+    for n in range(1, vertices + 1):
         if remove_every_rope is None or n % remove_every_rope == 0:
-            ground_point = point_between(hinge_point, end_floor, verteces, n)
-            open_point = point_between(hinge_point, end_gate_open, verteces, n)
+            ground_point = point_between(hinge_point, end_floor, vertices, n)
+            open_point = point_between(hinge_point, end_gate_open, vertices, n)
             edge_length = distance_between(ground_point, open_point)
             ground_vertex = n
-            gate_vertex = verteces + n
+            gate_vertex = vertices + n
             scenario.add_edge([ground_vertex, gate_vertex], ROPE, edge_length)
 
     result = scenario.to_json()

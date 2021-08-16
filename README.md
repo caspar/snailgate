@@ -33,7 +33,7 @@ Separate GUI part from the simulation part.
 
 # Response from server
 
-Set of frames with updated positions of verteces
+Set of frames with updated positions of vertices
 
 # Development
 

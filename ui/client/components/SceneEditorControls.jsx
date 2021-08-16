@@ -70,7 +70,7 @@ const SceneEditorControls = props => {
         <SelectedEdge selectedEdge={props.edges[props.selectedEdgeId]} splitSelectedEdge={props.splitSelectedEdge} changeEdgeLength={props.changeEdgeLength} />
       )}
       {isNumber(props.selectedVertexId) && (
-        <SelectedVertex selectedVertex={props.verteces[props.selectedVertexId]} changeVertexBoyancy={props.changeVertexBoyancy} changeVertexFixed={props.changeVertexFixed} />
+        <SelectedVertex selectedVertex={props.vertices[props.selectedVertexId]} changeVertexBoyancy={props.changeVertexBoyancy} changeVertexFixed={props.changeVertexFixed} />
       )}
     </div>
   )
@@ -82,7 +82,7 @@ const mapStateToProps = state => ({
   selectedVertexId: selectors.selectedVertexId(state),
   isAddingEdge: selectors.isAddingEdge(state),
   edges: selectors.edges(state),
-  verteces: selectors.verteces(state)
+  vertices: selectors.vertices(state)
 })
 
 const mapDispatchToProps = dispatch => (

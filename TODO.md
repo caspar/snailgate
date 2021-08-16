@@ -17,13 +17,13 @@
 - [x] Save result of simulation
 - [x] Fix bug where edge leaves water, water pressure force is massive
 - [ ] Be able to run batch simulations for testing, and then load them into the UI
-- [ ] for cleaner code - sort free/fixed verteces at start of simulation
-- [x] be able to move verteces
+- [ ] for cleaner code - sort free/fixed vertices at start of simulation
+- [x] be able to move vertices
 - [x] Investigate performance (Is it possible that it's sending the data to the UI)
 - [x] Add force to counter forces if below ground, which is proportional to the distance below ground
 - [ ] Zero out pressure for when its below the ground
 - [ ] Figure out real gravity force
-- [x] Be able to automatically generate watergate with fully open angle, rest angle, length of watergate, and number of verteces.  Rope would exist per each vertex.  Number that specifies number of ropes. Code to generate it should be in python.
+- [x] Be able to automatically generate watergate with fully open angle, rest angle, length of watergate, and number of vertices.  Rope would exist per each vertex.  Number that specifies number of ropes. Code to generate it should be in python.
 - [x] Be able to automatically generate "snailgate structures" that are stackable (with examples)
 - [x] Implement Quasi-static simulation
 - [ ] Find better way of split snailgate edges, so all small edges have similar size

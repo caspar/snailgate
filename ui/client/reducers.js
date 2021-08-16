@@ -2,21 +2,21 @@ import { actionTypes } from './actions'
 import { vertexTypes, forceTypes, toggleShowForce } from 'models'
 import { combineReducers } from 'redux'
 
-const initialVertecesState = [
+const initialverticesState = [
   {
     p: [1, 0],
     type: vertexTypes.fixed
   }
 ]
 
-const verteces = (state = initialVertecesState, action) => {
+const vertices = (state = initialverticesState, action) => {
   switch(action.type) {
   case actionTypes.EDGE_ADDED:
   case actionTypes.DATA_IMPORTED:
-  case actionTypes.VERTECES_UPDATED:
+  case actionTypes.vertices_UPDATED:
   case actionTypes.EDGE_DELETED:
   case actionTypes.SCENARIO_LOADED:
-    return action.verteces
+    return action.vertices
   default:
     return state
   }
@@ -210,7 +210,7 @@ const addMode = (state = {}, action) => {
 }
 
 const reducer = combineReducers({
-  verteces,
+  vertices,
   edges,
   selected,
   hovered,

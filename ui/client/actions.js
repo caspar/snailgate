@@ -34,7 +34,7 @@ export const actionTypes = {
   SIMULATION_RESULTS_RECEIVED: 'SIMULATION_RESULTS_RECEIVED',
   DATA_IMPORTED: 'DATA_IMPORTED',
   EDGES_UPDATED: 'EDGES_UPDATED',
-  VERTECES_UPDATED: 'VERTECES_UPDATED',
+  vertices_UPDATED: 'vertices_UPDATED',
   CANCELED: 'CANCELED',
   EDGE_DELETED: 'EDGE_DELETED',
   SIMULATION_STEP_CHANGED: 'SIMULATION_STEP_CHANGED',
@@ -65,7 +65,7 @@ export const enterAddMode = (edgeType, firstVertexType) => ({
 
 const finishAddingEdge = (existingVertexId, newVertex, secondVertexEdgeId) => (dispatch, getState) => {
   const state = getState()
-  const verteces = clone(state.verteces)
+  const vertices = clone(state.vertices)
   const addMode = state.addMode
   let edges = clone(state.edges)
 
@@ -74,36 +74,36 @@ const finishAddingEdge = (existingVertexId, newVertex, secondVertexEdgeId) => (d
   if (isNumber(addMode.firstVertexId))
     vertexIds[0] = addMode.firstVertexId
   else {
-    verteces.push({
+    vertices.push({
       p: addMode.firstVertex,
       type: addMode.firstVertexType
     })
-    vertexIds[0] = verteces.length - 1
+    vertexIds[0] = vertices.length - 1
   }
 
   if (isNumber(existingVertexId))
     vertexIds[1] = existingVertexId
   else {
-    verteces.push(newVertex)
-    vertexIds[1] = verteces.length - 1
+    vertices.push(newVertex)
+    vertexIds[1] = vertices.length - 1
   }
 
   if (isNumber(addMode.firstVertexEdgeId))
-    edges = splitEdge(edges, verteces, vertexIds[0], addMode.firstVertexEdgeId)
+    edges = splitEdge(edges, vertices, vertexIds[0], addMode.firstVertexEdgeId)
 
   if (isNumber(secondVertexEdgeId))
-    edges = splitEdge(edges, verteces, vertexIds[1], secondVertexEdgeId)
+    edges = splitEdge(edges, vertices, vertexIds[1], secondVertexEdgeId)
 
   edges.push({
     v: vertexIds,
     type: addMode.addingEdgeType
   })
 
-  edges = updateEdgeLengths(edges, verteces)
+  edges = updateEdgeLengths(edges, vertices)
 
   dispatch({
     type: actionTypes.EDGE_ADDED,
-    verteces,
+    vertices,
     edges
   })
 }
@@ -121,8 +121,8 @@ export const edgeClicked = (edgeId, mouse) => (dispatch, getState) => {
 
   const vertexIds = state.edges[edgeId].v
   const pointOnEdge = findClosetsPointOnEdge(
-    state.verteces[vertexIds[0]].p,
-    state.verteces[vertexIds[1]].p,
+    state.vertices[vertexIds[0]].p,
+    state.vertices[vertexIds[1]].p,
     mouse
   )
 
@@ -154,7 +154,7 @@ export const edgeClicked = (edgeId, mouse) => (dispatch, getState) => {
 export const vertexClicked = vertexId => (dispatch, getState) => {
   const state = getState()
   if (isAddingEdge(state)) {
-    const vertex = state.verteces[vertexId]
+    const vertex = state.vertices[vertexId]
 
     if (onFirstVertex(state)) {
       dispatch({
@@ -232,12 +232,12 @@ export const emptySpaceClicked = mouse => (dispatch, getState) => {
 }
 
 export const importData = dataFromServer => {
-  const { edges, verteces, waterLevel } = fromSimulationData(dataFromServer)
+  const { edges, vertices, waterLevel } = fromSimulationData(dataFromServer)
 
   return {
     type: actionTypes.DATA_IMPORTED,
     edges,
-    verteces,
+    vertices,
     waterLevel
   }
 }
@@ -263,16 +263,16 @@ export const moveVertex = (vertexId, position) => (
 
 const updateVertex = (vertexId, update) => (dispatch, getState) => {
   const state = getState()
-  const verteces = clone(state.verteces)
+  const vertices = clone(state.vertices)
 
-  verteces[vertexId] = {
-    ...verteces[vertexId],
+  vertices[vertexId] = {
+    ...vertices[vertexId],
     ...update
   }
 
   dispatch({
-    type: actionTypes.VERTECES_UPDATED,
-    verteces
+    type: actionTypes.vertices_UPDATED,
+    vertices
   })
 }
 
@@ -306,12 +306,12 @@ export const cancel = () => ({
 export const tryDeleteSelectedEdge = () => (dispatch, getState) => {
   const state = getState()
   if (isNumber(selectedEdgeId(state))) {
-    const { edges, verteces } = deleteEdge(state.edges, state.verteces, selectedEdgeId(state))
+    const { edges, vertices } = deleteEdge(state.edges, state.vertices, selectedEdgeId(state))
 
     dispatch({
       type: actionTypes.EDGE_DELETED,
       edges,
-      verteces
+      vertices
     })
   }
 }
@@ -327,9 +327,9 @@ export const simulationResultsReceived = ({ forces, vertexPositions, waterLevel,
   totalSteps
 })
 
-const getDataForServer = (edges, verteces, simulationSettings, waterLevel) => {
+const getDataForServer = (edges, vertices, simulationSettings, waterLevel) => {
   const simulationData = toSimulationData(
-    verteces,
+    vertices,
     edges,
     waterLevel
   )
@@ -349,17 +349,17 @@ const startRunningSimulation = (simulationResults, simulationSettings = {}) => (
 export const runSimulation = (simulationSettings, randomSplitVertexPositions) => (dispatch, getState) => {
   const state = getState()
 
-  const { edges, verteces } = splitEdgesWithSplitSize(state.edges, state.verteces, randomSplitVertexPositions)
+  const { edges, vertices } = splitEdgesWithSplitSize(state.edges, state.vertices, randomSplitVertexPositions)
 
   dispatch(startRunningSimulation({
     vertexPositions: [],
     forces: [],
     waterLevel: [],
     edges,
-    verteces
+    vertices
   }, simulationSettings))
 
-  post('/simulate', getDataForServer(edges, verteces, simulationSettings, state.waterLevel))
+  post('/simulate', getDataForServer(edges, vertices, simulationSettings, state.waterLevel))
     .then(() => {
       dispatch({
         type: actionTypes.FINISHED_RUNNING_SIMULATION

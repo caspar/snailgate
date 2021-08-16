@@ -58,7 +58,7 @@ const EdgeDrawingAide = ({ pa, pb, length }) => {
 }
 
 
-const SplitVerteces = ({ pa, pb, splitSize, onClick, onMouseOver, onMouseOut }) => {
+const Splitvertices = ({ pa, pb, splitSize, onClick, onMouseOver, onMouseOut }) => {
   const edgeLength = getLength(pa, pb)
   const vertexSize = 1
   const edgeSize = edgeLength / splitSize
@@ -96,11 +96,11 @@ const Edge = ({ edgeType, length, isNew, id, pa, pb, edgeClicked, edgeHovered = 
     onMouseOut: () => edgeHovered(id, false)
   }
 
-  const lengthBetweenVerteces = getLength(pa, pb)
+  const lengthBetweenvertices = getLength(pa, pb)
 
   let lineElement
 
-  if (edgeType !== edgeTypes.rope || length === lengthBetweenVerteces)
+  if (edgeType !== edgeTypes.rope || length === lengthBetweenvertices)
     lineElement = (
       <line
         x1={toSvgX(pa[0])}
@@ -113,7 +113,7 @@ const Edge = ({ edgeType, length, isNew, id, pa, pb, edgeClicked, edgeHovered = 
   else
     lineElement = (
       <path
-        d={toCurvedLineArgs(pa, pb, length - lengthBetweenVerteces)}
+        d={toCurvedLineArgs(pa, pb, length - lengthBetweenvertices)}
         {...commonProps}
         fill='transparent'
       />
@@ -125,7 +125,7 @@ const Edge = ({ edgeType, length, isNew, id, pa, pb, edgeClicked, edgeHovered = 
       {(isNew || active) && (
         <EdgeDrawingAide pa={pa} pb={pb} length={length} />
       )}
-      {splitSize > 1 && <SplitVerteces {...commonProps} pa={pa} pb={pb} splitSize={splitSize} />}
+      {splitSize > 1 && <Splitvertices {...commonProps} pa={pa} pb={pb} splitSize={splitSize} />}
     </g>
   )
 }
@@ -199,11 +199,11 @@ const Floor = ({ floorClicked }) => (
   <rect fill={floorColor} width={sceneSize} x={-sceneSize/2} height={sceneSize / 2} y={height - (floorSize * visualScale)} onClick={floorClicked} />
 )
 
-const getVertexPosition = (vertexId, verteces, movedVertex, simulatedVertexPositions) => (
-  getVertexPoint(simulatedVertexPositions, verteces[vertexId], movedVertex, vertexId)
+const getVertexPosition = (vertexId, vertices, movedVertex, simulatedVertexPositions) => (
+  getVertexPoint(simulatedVertexPositions, vertices[vertexId], movedVertex, vertexId)
 )
 
-const Edges = ({edges, verteces, movedVertex, simulatedVertexPositions, edgeClicked, edgeHovered, selectedEdgeId, hoveredEdgeId }) => (
+const Edges = ({edges, vertices, movedVertex, simulatedVertexPositions, edgeClicked, edgeHovered, selectedEdgeId, hoveredEdgeId }) => (
   <g>
     {map(edges, (edge, i) => (
       <Edge
@@ -212,8 +212,8 @@ const Edges = ({edges, verteces, movedVertex, simulatedVertexPositions, edgeClic
         edgeType={edge.type}
         length={edge.length}
         splitSize={edge.splitSize}
-        pa={getVertexPosition(edge.v[0], verteces, movedVertex, simulatedVertexPositions)}
-        pb={getVertexPosition(edge.v[1], verteces, movedVertex, simulatedVertexPositions)}
+        pa={getVertexPosition(edge.v[0], vertices, movedVertex, simulatedVertexPositions)}
+        pb={getVertexPosition(edge.v[1], vertices, movedVertex, simulatedVertexPositions)}
         edgeClicked={edgeClicked}
         edgeHovered={edgeHovered}
         active={selectedEdgeId === i || hoveredEdgeId === i}
@@ -228,9 +228,9 @@ const getVertexPoint = (simulatedVertexPositions, vertex, movedVertex, i) => {
   return vertex.p
 }
 
-const Verteces = ({ verteces, movedVertex, showForces, vertexClicked, simulatedVertexPositions, simulatedForces, vertexHovered, firstVertexId, hoveredVertexId, selectedVertexId }) => (
+const vertices = ({ vertices, movedVertex, showForces, vertexClicked, simulatedVertexPositions, simulatedForces, vertexHovered, firstVertexId, hoveredVertexId, selectedVertexId }) => (
   <g>
-    {map(verteces, (vertex, i) => (
+    {map(vertices, (vertex, i) => (
       <Vertex
         key={i}
         id={i}
@@ -349,7 +349,7 @@ class SnailGateElements extends Component {
       /* state */
       edges,
       selectedEdgeId,
-      verteces,
+      vertices,
       firstVertexId,
       waterLevel,
       hoveredEdgeId,
@@ -377,13 +377,13 @@ class SnailGateElements extends Component {
         >
           <svg width={width} height={height} >
             <rect width={sceneSize} height={sceneSize} x={-sceneSize/2} y={-sceneSize/2} onClick={this.emptySpaceClicked} fill='#fff' />
-            <Water level={waterLevel} verteces={verteces} edges={edges} simulatedVertexPositions={simulatedVertexPositions} />
+            <Water level={waterLevel} vertices={vertices} edges={edges} simulatedVertexPositions={simulatedVertexPositions} />
             <Floor floorClicked={this.floorClicked} />
             {newEdge && (
               <Edge isNew edgeType={newEdge.type} pa={newEdge.v[0].p} pb={newEdge.v[1].p} length={newEdge.length} selectedEdgeId={selectedEdgeId} edgeClicked={this.emptySpaceClicked} />
             )}
-            <Edges edges={edges} verteces={verteces} movedVertex={this.movedVertex} simulatedVertexPositions={simulatedVertexPositions} edgeClicked={this.edgeClicked} edgeHovered={edgeHovered} selectedEdgeId={selectedEdgeId} hoveredEdgeId={hoveredEdgeId} />
-            <Verteces verteces={verteces} movedVertex={this.movedVertex} simulatedVertexPositions={simulatedVertexPositions} showForces={showForces} simulatedForces={simulatedForces} vertexClicked={vertexClicked} vertexHovered={vertexHovered} vertexMouseDowned={this.vertexMouseDowned} firstVertexId={firstVertexId} hoveredVertexId={hoveredVertexId} selectedVertexId={selectedVertexId} />
+            <Edges edges={edges} vertices={vertices} movedVertex={this.movedVertex} simulatedVertexPositions={simulatedVertexPositions} edgeClicked={this.edgeClicked} edgeHovered={edgeHovered} selectedEdgeId={selectedEdgeId} hoveredEdgeId={hoveredEdgeId} />
+            <vertices vertices={vertices} movedVertex={this.movedVertex} simulatedVertexPositions={simulatedVertexPositions} showForces={showForces} simulatedForces={simulatedForces} vertexClicked={vertexClicked} vertexHovered={vertexHovered} vertexMouseDowned={this.vertexMouseDowned} firstVertexId={firstVertexId} hoveredVertexId={hoveredVertexId} selectedVertexId={selectedVertexId} />
           </svg>
         </ReactSVGPanZoom>
       </div>
@@ -394,7 +394,7 @@ class SnailGateElements extends Component {
 const mapStateToProps = state => ({
   edges: selectors.edges(state),
   selectedEdgeId: selectors.selectedEdgeId(state),
-  verteces: selectors.verteces(state),
+  vertices: selectors.vertices(state),
   firstVertexId: selectors.firstVertexId(state),
   waterLevel: selectors.waterLevel(state),
   hoveredEdgeId: selectors.hoveredEdgeId(state),
