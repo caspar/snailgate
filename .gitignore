@@ -1,0 +1,81 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Packages
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Latex
+*.bbl
+*.blg
+*.log
+*.out
+*.pdf
+*.aux
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+*.run.xml
+*-blx.bib
+
+# Python
+*.pyc
+*.pkl
+**/*/*.pyc
+
+# Javascript
+**/*/node_modules
+**/*/npm-debug.log
+
+# Build directories
+build
+latex.out
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Venv
+venv/
+nenv/
+
+# Static files
+ui/server/static
