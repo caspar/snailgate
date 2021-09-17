@@ -8,6 +8,7 @@ import simulatorLib
 import json
 
 app = Flask(__name__)
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
 socketio = SocketIO(app)
 
 scenariosDirectory = os.path.join(os.path.dirname(__file__), '..', '..', 'scenarios')
@@ -44,9 +45,10 @@ simulatorCanceled = False
 
 @app.route('/simulate', methods=['POST'])
 def simulate():
+    print("raw_data:", request.get_data())
     print('parsing json')
-    postBody = request.get_json()
-
+    postBody = json.loads(request.get_data())
+    
     print(postBody)
 
     V, E, VP, EP, EL, hw, VBR, water_speed, timeStep, maxIterations, simulationMethod = simulatorLib.from_json(postBody)
