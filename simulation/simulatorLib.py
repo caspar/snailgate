@@ -2,7 +2,6 @@
 import time
 import numpy as np
 import scipy as sp
-import json
 from scipy import optimize
 import forcesLib
 import geometryLib
@@ -419,9 +418,7 @@ def simulate(V, E, VP, EP, EL, VBR, hw, water_speed=0.0, k=0.0001, max_iteration
 
 # noinspection PyPep8Naming
 def from_json(post_body):
-    print("POST:", str(post_body))
-    print("POST-NP", np.array(post_body))
-    V = np.array(post_body['vertices'])
+    V = np.array(post_body['verteces'])
     E = np.array(post_body['edges'])
     VP = np.array(post_body['vertexTypes'])
     EP = np.array(post_body['edgeTypes'])

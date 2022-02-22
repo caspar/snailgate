@@ -149,7 +149,7 @@ class SimulationController extends Component {
         </button>
         {runningSimulation && (
           <button type='button' onClick={cancelSimulation} disabled={cancelingSimulation} >
-            {!cancelingSimulation ? 'Cancel Simulation' : 'Cancelin)g Simulation...'}
+            {!cancelingSimulation ? 'Cancel Simulation' : 'Canceling Simulation...'}
           </button>
         )}
       </fieldset>

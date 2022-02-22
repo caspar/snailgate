@@ -321,23 +321,23 @@ function roundNumber(num, dec) {
     return Math.round(num * Math.pow(10, dec)) / Math.pow(10, dec);
 }
 
-const Water = ({ vertices, level, edges, simulatedVertexPositions }) => {
-    const firstVertexAboveGround = find(vertices, vertex => vertex.p[1] > 0)
+const Water = ({ verteces, level, edges, simulatedVertexPositions }) => {
+    const firstVertexAboveGround = find(verteces, vertex => vertex.p[1] > 0)
     if (!firstVertexAboveGround) return <g />
 
     var currentVBR = []
-    for (i = 0; i < vertices.length; i++) {
-        if (typeof vertices[i].boyantRadius == 'undefined')
+    for (i = 0; i < verteces.length; i++) {
+        if (typeof verteces[i].boyantRadius == 'undefined')
             currentVBR.push(0.0);
         else
-            currentVBR.push(vertices[i].boyantRadius);
+            currentVBR.push(verteces[i].boyantRadius);
     }
 
     var currentVertices = []
     if (typeof simulatedVertexPositions == 'undefined') {
         var i = 0
-        for (i = 0; i < vertices.length; i++) {
-            currentVertices.push(vertices[i].p)
+        for (i = 0; i < verteces.length; i++) {
+            currentVertices.push(verteces[i].p)
         }
     } else {
         currentVertices = simulatedVertexPositions

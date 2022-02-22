@@ -34,7 +34,6 @@ else:
     data_file = open(sys.argv[1])
     data = json.load(data_file)
     V, E, VP, EP, EL, hw, VBR, water_speed, time_step, max_iterations, simulation_method = simulatorLib.from_json(data)
-print("here is V:", V)
 
 water_speed = 0.2
 # noinspection PyRedeclaration

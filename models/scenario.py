@@ -39,7 +39,7 @@ class Scenario(object):
     def to_json(self):
         return { 
             'waterLevel': self.water_level,
-            'vertices': map_attribute(self.vertices, 'point'),
+            'verteces': map_attribute(self.vertices, 'point'),
             'vertexTypes': map_attribute(self.vertices, 'type'),
             'vertexBoyantRadiai': map_attribute(self.vertices, 'boyant_radius'),
             'edges': map_attribute(self.edges, 'vertices'),
