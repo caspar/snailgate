@@ -41,6 +41,16 @@ Set of frames with updated positions of vertices
 
 Install [node.js](https://nodejs.org/en/download/) for the javascript build system (webpack).
 
+
+For M1 Macbooks:
+
+brew install anaconda
+conda create --name snailgate_env python=3.8 scipy=1.5.0 matplotlib=3.2.0
+conda activate snailgate_env
+python -m pip install matplotlib==3.2.0 
+
+
+
 Install dependencies:
 
     pip install -r requirements.txt
@@ -54,9 +64,7 @@ Install linting tools globally, so that they work in the development environment
 ## Running the application
 
 Start the server:
-
-    ./start.sh
-
+`cd ` 
 Open the url `http://localhost:5000` in the browser.
 
 ## Running tests/linting tools
@@ -74,3 +82,13 @@ Build the javascript:
 Start the server in production mode:
 
     ./start_server_prod.sh
+    
+    
+    npm install
+Brew install node
+npm install -r requirements.txt
+cat requirements.txt
+git checkout felix-fixes
+./start-client.sh
+cd ui/server; python App.py
+> localhost:5000
