@@ -2,7 +2,7 @@ import React from 'react'
 import { find } from 'lodash'
 import { toSvgX, toSvgY } from '../utils/svg'
 
-const waterColor ='#4BAFC8'
+const waterColor = '#53B3CB'//'#afbdd1'//'#4BAFC8'
 
 const getOriginVertex = (vertices) => {
     const verticesAtBottom = []
