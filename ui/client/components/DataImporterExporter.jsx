@@ -38,7 +38,7 @@ class DataImporterExporter extends Component {
 
 const toSimulationDataJson = props => (
   JSON.stringify(toSimulationData(
-    props.vertices,
+    props.verteces,
     props.edges,
     props.waterLevel
   ), null, 2)
@@ -58,7 +58,7 @@ class DataImporterExporterContainer extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (
-      nextProps.vertices !== this.props.vertices 
+      nextProps.verteces !== this.props.verteces 
       || nextProps.edges !== this.props.edges
       || nextProps.waterLevel !== this.props.waterLevel
     )
@@ -91,7 +91,7 @@ class DataImporterExporterContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  vertices: selectors.vertices(state),
+  verteces: selectors.verteces(state),
   edges: selectors.edges(state),
   waterLevel: selectors.waterLevel(state)
 })

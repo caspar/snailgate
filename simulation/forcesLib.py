@@ -449,9 +449,8 @@ def compute_water_pressure_force_on_edge(edge, V, hw):
 # for each vertex
 # noinspection PyPep8Naming
 def compute_gravity_forces(V, E, EL):
-    print("V is greater than E:", len(V)>len(E))
     G = np.zeros((len(V), 2))
-    weights = [0] * len(V) #previously [None] ??????
+    weights = [None] * len(V)
 
     for i, edge in enumerate(E):
         v1 = edge[0]

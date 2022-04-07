@@ -29,25 +29,25 @@ export const forceColors = {
   [forceTypes.boyancy]: 'black'
 }
 
-export const toSimulationData = (vertices, edges, waterLevel) => ({
-  vertices: map(vertices, ({ p }) => p),
+export const toSimulationData = (verteces, edges, waterLevel) => ({
+  verteces: map(verteces, ({ p }) => p),
   edges: map(edges, ({ v }) => v),
-  vertexTypes: map(vertices, ({ type }) => type),
-  vertexBoyantRadiai: map(vertices, ({ boyantRadius = 0 }) => boyantRadius),
+  vertexTypes: map(verteces, ({ type }) => type),
+  vertexBoyantRadiai: map(verteces, ({ boyantRadius = 0 }) => boyantRadius),
   edgeTypes: map(edges, ({ type }) => type),
   edgeLengths: map(edges, ({ length }) => length),
   edgeSplits: map(edges, ({ splitSize }) => splitSize),
   waterLevel
 })
 
-export const fromSimulationData = ({ vertices, edges, vertexTypes, vertexBoyantRadiai = [], edgeTypes, waterLevel, edgeLengths = [], edgeSplits = [] }) => ({
+export const fromSimulationData = ({ verteces, edges, vertexTypes, vertexBoyantRadiai = [], edgeTypes, waterLevel, edgeLengths = [], edgeSplits = [] }) => ({
   edges: map(edges, (v, i) => ({
     v,
     type: edgeTypes[i],
-    length: edgeLengths[i] || getLength(vertices[v[0]], vertices[v[1]]),
+    length: edgeLengths[i] || getLength(verteces[v[0]], verteces[v[1]]),
     splitSize: edgeSplits[i] || 1
   })),
-  vertices: map(vertices, (p, i) => ({ p, type: vertexTypes[i], boyantRadius: vertexBoyantRadiai[i] })),
+  verteces: map(verteces, (p, i) => ({ p, type: vertexTypes[i], boyantRadius: vertexBoyantRadiai[i] })),
   waterLevel
 })
 
@@ -65,7 +65,7 @@ export const parseForcesFromServer = forcesByStep => (
   ))
 )
 
-export const splitEdge = (edges, vertices, vertexIdToSplitOn, edgeIdToSplit) => {
+export const splitEdge = (edges, verteces, vertexIdToSplitOn, edgeIdToSplit) => {
   const splitEdges = clone(edges)
 
   const originalSecondVertex = splitEdges[edgeIdToSplit].v[1]
@@ -79,14 +79,14 @@ export const splitEdge = (edges, vertices, vertexIdToSplitOn, edgeIdToSplit) => 
   return splitEdges
 }
 
-const recalculateEdgeLength = (edge, vertices) => (
-  edge.type === edgeTypes.rope && isNumber(edge.length) ? edge.length : getLength(vertices[edge.v[0]].p, vertices[edge.v[1]].p)
+const recalculateEdgeLength = (edge, verteces) => (
+  edge.type === edgeTypes.rope && isNumber(edge.length) ? edge.length : getLength(verteces[edge.v[0]].p, verteces[edge.v[1]].p)
 )
 
-export const updateEdgeLengths = (edges, vertices) => (
+export const updateEdgeLengths = (edges, verteces) => (
   map(edges, edge => ({
     ...edge,
-    length: recalculateEdgeLength(edge, vertices)
+    length: recalculateEdgeLength(edge, verteces)
   }))
 )
 
@@ -96,9 +96,9 @@ const noEdgeExistsWithVertex = (edges, vertexId) => (
   ))
 )
 
-export const deleteEdge = (originalEdges, originalvertices, edgeIdToDelete) => {
+export const deleteEdge = (originalEdges, originalVerteces, edgeIdToDelete) => {
   const edges = clone(originalEdges)
-  const vertices = clone(originalvertices)
+  const verteces = clone(originalVerteces)
 
   // delete edge
   const edge = edges.splice(edgeIdToDelete, 1)[0]
@@ -110,8 +110,8 @@ export const deleteEdge = (originalEdges, originalvertices, edgeIdToDelete) => {
     if (vertex !== 0) {
       if (noEdgeExistsWithVertex(edges, vertex)) {
         // remove the vertex
-        vertices.splice(vertex, 1)
-        // for each edge, move vertices back to account for removed vertex
+        verteces.splice(vertex, 1)
+        // for each edge, move verteces back to account for removed vertex
         each(edges, edge => {
           if (edge.v[0] > vertex)
             edge.v[0]--
@@ -125,7 +125,7 @@ export const deleteEdge = (originalEdges, originalvertices, edgeIdToDelete) => {
     }
   })
 
-  return { edges, vertices }
+  return { edges, verteces }
 }
 
 const getEvenlySplitNewVertexPositions = (p1, p2, splitSize) => {
@@ -154,7 +154,7 @@ const getRandomSplitNewVertexPositions = (p1, p2, splitSize) => {
   const edgeLength = getLength(p1, p2)
   const slope = getNormalizedSlope(p1, p2)
 
-  const newvertices = reduce(range(1, splitSize), result => {
+  const newVerteces = reduce(range(1, splitSize), result => {
     const change = random(0, edgeLength, true)
     const newPoint = [p1[0] + change * slope[0], p1[1] + change * slope[1]]
 
@@ -168,26 +168,26 @@ const getRandomSplitNewVertexPositions = (p1, p2, splitSize) => {
 
   const sortOrder = p1[0] < p2[0] ? 1 : -1
 
-  // make sure to sort the vertices if they were randomized
-  return orderBy(newvertices, ({ p }) => sortOrder * p[0])
+  // make sure to sort the verteces if they were randomized
+  return orderBy(newVerteces, ({ p }) => sortOrder * p[0])
 }
 
-export const splitEdgeBySize = (originalEdges, originalvertices, edgeId, splitSize, randomSplitVertexPositions) => {
+export const splitEdgeBySize = (originalEdges, originalVerteces, edgeId, splitSize, randomSplitVertexPositions) => {
   const edge = originalEdges[edgeId]
 
-  const [v1, v2] = [originalvertices[edge.v[0]], originalvertices[edge.v[1]]]
+  const [v1, v2] = [originalVerteces[edge.v[0]], originalVerteces[edge.v[1]]]
 
-  let newvertices
+  let newVerteces
   if (randomSplitVertexPositions)
-    newvertices = getRandomSplitNewVertexPositions(v1.p, v2.p, splitSize)
+    newVerteces = getRandomSplitNewVertexPositions(v1.p, v2.p, splitSize)
   else
-    newvertices = getEvenlySplitNewVertexPositions(v1.p, v2.p, splitSize)
+    newVerteces = getEvenlySplitNewVertexPositions(v1.p, v2.p, splitSize)
 
-  const currentLastVertexIndex = originalvertices.length - 1
+  const currentLastVertexIndex = originalVerteces.length - 1
 
-  const vertices = [
-    ...originalvertices,
-    ...newvertices
+  const verteces = [
+    ...originalVerteces,
+    ...newVerteces
   ]
 
   const newEdges = reduce(range(0, splitSize), (result, edgeIndex) => {
@@ -196,7 +196,7 @@ export const splitEdgeBySize = (originalEdges, originalvertices, edgeId, splitSi
 
     const newEdge = {
       type: edge.type,
-      length: getLength(vertices[v1].p, vertices[v2].p),
+      length: getLength(verteces[v1].p, verteces[v2].p),
       v: [v1, v2]
     }
 
@@ -210,10 +210,10 @@ export const splitEdgeBySize = (originalEdges, originalvertices, edgeId, splitSi
     ...newEdges
   ]
 
-  return { edges, vertices }
+  return { edges, verteces }
 }
 
-export const splitEdgesWithSplitSize = (originalEdges, originalvertices, randomSplitVertexPositions) => {
+export const splitEdgesWithSplitSize = (originalEdges, originalVerteces, randomSplitVertexPositions) => {
   const edgesToSplit = reduce(originalEdges, (result, { splitSize }, edgeIndex) => {
     if (splitSize > 1)
       result.push({
@@ -224,14 +224,14 @@ export const splitEdgesWithSplitSize = (originalEdges, originalvertices, randomS
     return result
   }, [])
 
-  let { edges, vertices } = reduce(edgesToSplit, ({ edges: originalEdges, vertices: originalvertices }, { splitSize, edgeIndex }) => {
-    return splitEdgeBySize(originalEdges, originalvertices, edgeIndex, splitSize, randomSplitVertexPositions)
-  }, { edges: originalEdges, vertices: originalvertices })
+  let { edges, verteces } = reduce(edgesToSplit, ({ edges: originalEdges, verteces: originalVerteces }, { splitSize, edgeIndex }) => {
+    return splitEdgeBySize(originalEdges, originalVerteces, edgeIndex, splitSize, randomSplitVertexPositions)
+  }, { edges: originalEdges, verteces: originalVerteces })
 
   // delete all split edges
   edges = filter(edges, ({ splitSize = 1}) => splitSize <= 1)
 
-  return { edges, vertices }
+  return { edges, verteces }
 }
 
 export const toggleShowForce = (showForces, showForceType) => {

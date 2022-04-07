@@ -43,7 +43,6 @@
 *.blg
 *.log
 *.out
-*.pdf
 *.aux
 *.synctex.gz
 *.fdb_latexmk
@@ -79,3 +78,7 @@ nenv/
 
 # Static files
 ui/server/static
+
+# Compiled/optimized Python files
+__pycache__
+*.py[cod]

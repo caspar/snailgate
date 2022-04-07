@@ -6,11 +6,11 @@ export const waterLevel = state => {
   return state.waterLevel
 }
 
-export const vertices = state => {
+export const verteces = state => {
   if (playingSimulation(state))
-    return state.simulationResults.vertices
+    return state.simulationResults.verteces
 
-  return state.vertices
+  return state.verteces
 }
 
 export const availableSimulationSteps = state => {

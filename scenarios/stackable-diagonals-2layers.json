@@ -1,5 +1,5 @@
 {
-  "vertices": [
+  "verteces": [
     [
       2,
       0
@@ -476,5 +476,5 @@
     1,
     1
   ],
-  "waterLevel": 1.8714551493081353
+  "waterLevel": 0.01
 }

@@ -12,7 +12,7 @@ class SimulationController extends Component {
 
     this.state = { 
       timeStep: 0.01,
-      maxIterations: 10000,
+      maxIterations: 4000,
       simulationMethod: 'Backward Euler',
       randomSplitVertexPositions: false,
       waterLevelRaiseRate: 0.2 
@@ -149,7 +149,7 @@ class SimulationController extends Component {
         </button>
         {runningSimulation && (
           <button type='button' onClick={cancelSimulation} disabled={cancelingSimulation} >
-            {!cancelingSimulation ? 'Cancel Simulation' : 'Cancelin)g Simulation...'}
+            {!cancelingSimulation ? 'Cancel Simulation' : 'Canceling Simulation...'}
           </button>
         )}
       </fieldset>
