@@ -37,7 +37,8 @@ def emitBatch(U, F, wl, totalSteps):
         'totalSteps': totalSteps
     }
 
-    socketio.emit('results', jsonResult, broadcast=True)
+    # socketio.emit('results', jsonResult, broadcast=True)
+    socketio.emit('results', jsonResult)
 
 
 simulatorCanceled = False
