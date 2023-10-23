@@ -266,7 +266,7 @@ def implicit_simulation(V, E, VP, EP, EL, VBR, hw, water_speed=0.0, k=0.01, max_
     # plotLib.show()
 
     for n in range(0, max_iterations - 1):
-        # print("Water level: " + str(hw))
+        print("Water level: " + str(hw))
 
         # plot current setup
         # plotLib.plotWatergateSetup(U[n, :, 0:2], E, EP, hw)

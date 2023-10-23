@@ -37,7 +37,8 @@ def emitBatch(U, F, wl, totalSteps):
         'totalSteps': totalSteps
     }
 
-    socketio.emit('results', jsonResult, broadcast=True)
+    # socketio.emit('results', jsonResult, broadcast=True)
+    socketio.emit('results', jsonResult)
 
 
 simulatorCanceled = False
@@ -45,7 +46,7 @@ simulatorCanceled = False
 @app.route('/simulate', methods=['POST'])
 def simulate():
     print('parsing json')
-    postBody = request.get_json(force=True, silent=True, cache=False)
+    postBody = request.get_json()
 
     print(postBody)
 
@@ -61,7 +62,7 @@ def simulate():
         method = simulatorLib.implicit_simulation
         batchDuration = 1
     else:
-        return jsonify(success=false)
+        return jsonify(success=False)
 
     print('Running simulation!')
     global simulatorCanceled

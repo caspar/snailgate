@@ -20,13 +20,13 @@ const wrapperStyle = {
 
 // color scheme: http://colorpalettes.net/wp-content/uploads/2014/01/cvetovaya-palitra-205.jpg
 
-const floorColor = '#36453B' //'#DCAB5E'
+const floorColor = '#DCAB5E'
 
 const vertexActiveColor = 'red'
 
 const edgeColors = {
-  [edgeTypes.rod]: '#59344f',
-  [edgeTypes.rope]: '#D64933' //'#AB420C'
+  [edgeTypes.rod]: 'black',
+  [edgeTypes.rope]: '#AB420C'
 }
 
 const activeEdgeColors = {
@@ -69,7 +69,7 @@ const SplitVerteces = ({ pa, pb, splitSize, onClick, onMouseOver, onMouseOut }) 
       y1={toSvgY(pa[1])}
       x2={toSvgX(pb[0])}
       y2={toSvgY(pb[1])}
-      strokeWidth={10}
+      strokeWidth={6}
       stroke={edgeColors[edgeTypes.rod]}
       strokeLinecap='round'
       strokeDasharray={`${vertexSize}, ${gap}`}
@@ -89,7 +89,7 @@ const toCurvedLineArgs = (pa, pb, lengthDiff) => {
 
 const Edge = ({ edgeType, length, isNew, id, pa, pb, edgeClicked, edgeHovered = emptyFn, active, splitSize = 1 }) => {
   const commonProps = {
-    strokeWidth:'10',
+    strokeWidth:'4',
     stroke: active ? activeEdgeColors[edgeType] : edgeColors[edgeType],
     onClick: () => edgeClicked(id),
     onMouseOver: () => edgeHovered(id, true),
