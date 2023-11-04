@@ -85,3 +85,5 @@ ui/server/static
 # Compiled/optimized Python files
 __pycache__
 *.py[cod]
+
+.vscode/

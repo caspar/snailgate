@@ -1,11 +1,13 @@
-import sys, os
+import os
+import sys
+
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'simulation'))
 
-from flask import Flask, request, render_template, jsonify
-from flask_socketio import SocketIO
+import json
 
 import simulatorLib
-import json
+from flask import Flask, jsonify, render_template, request
+from flask_socketio import SocketIO
 
 app = Flask(__name__)
 socketio = SocketIO(app)
