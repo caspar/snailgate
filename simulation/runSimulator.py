@@ -1,8 +1,9 @@
 #!/usr/bin/env python
+import json
 import sys
+
 import plotLib
 import simulatorLib
-import json
 
 if len(sys.argv) != 2:
     print("usage: ./simulator.py scenarioNumber")

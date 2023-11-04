@@ -1,11 +1,15 @@
-import sys, os
+import os
+import sys
+
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'simulation'))
+
+import json
 
 import tornado.ioloop
 import tornado.web
 
-import simulatorLib
-import json
+from simulation import simulatorLib
+
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):

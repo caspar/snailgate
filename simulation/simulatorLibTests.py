@@ -1,10 +1,11 @@
+import pdb
 import unittest
+
 import numpy as np
-import simulatorLib
 import scipy as sp
+import simulatorLib
 from scipy import optimize
 
-import pdb
 
 class SimulatorLibTests(unittest.TestCase):
     def print_error_info(self, J, approx_J, x):
@@ -13,22 +14,22 @@ class SimulatorLibTests(unittest.TestCase):
                 if J[i, j] == 0:
                     abs_error = np.abs(approx_J[i, j] - J[i, j])
                     if abs_error > 1e-5:
-                        print "[Warning] verify element:", i, j
-                        print "Actual value:", J[i, j]
-                        print "Approximative value:", approx_J[i, j]
-                        print "absError: ", abs_error
-                        print "\n"
+                        print("[Warning] verify element:", i, j)
+                        print("Actual value:", J[i, j])
+                        print("Approximative value:", approx_J[i, j])
+                        print("absError: ", abs_error)
+                        print("\n")
                 else:
                     rel_error = np.abs((approx_J[i, j] - J[i, j]) / J[i, j])
                     # print "relError: ", rel_error
 
                     if rel_error > 1e-5:
-                        print "[Warning] verify element:", i, j
-                        print "Actual value:", J[i, j]
-                        print "Approximative value:", approx_J[i, j]
+                        print("[Warning] verify element:", i, j)
+                        print("Actual value:", J[i, j])
+                        print("Approximative value:", approx_J[i, j])
                         abs_error = np.abs(approx_J[i, j] - J[i, j])
-                        print "absError: ", abs_error
-                        print "\n"
+                        print("absError: ", abs_error)
+                        print("\n")
 
 
     # Compute Jacobian and compare it with approximation

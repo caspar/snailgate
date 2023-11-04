@@ -1,7 +1,8 @@
 import math
 import unittest
-import numpy as np
+
 import forcesLib
+import numpy as np
 import simulatorLib
 
 

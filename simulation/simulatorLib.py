@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 import time
+
+import forcesLib
+import geometryLib
 import numpy as np
 import scipy as sp
 from scipy import optimize
-import forcesLib
-import geometryLib
 
 damping = 0.8
 
