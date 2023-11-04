@@ -1,14 +1,21 @@
-numpy
-#
-####### example-requirements.txt #######
-#
-
-###### Requirements with Version Specifiers ######
-#   See https://www.python.org/dev/peps/pep-0440/#version-specifiers
-flask == 0.12.1
-scipy == 0.19.0
-matplotlib == 2.0.0
-python-dateutil == 2.2
-flask-socketio == 2.8.6
-click == 6.7
-#
+bidict==0.22.1
+click==6.7
+cycler==0.12.1
+Flask==0.12.1
+Flask-SocketIO==2.8.6
+h11==0.14.0
+itsdangerous==2.0.1
+Jinja2==2.8
+MarkupSafe==0.23
+matplotlib==2.0.0
+numpy==1.26.1
+pyparsing==3.1.1
+python-dateutil==2.2
+python-engineio==4.8.0
+python-socketio==5.10.0
+pytz==2023.3.post1
+scipy==1.11.3
+simple-websocket==1.0.0
+six==1.16.0
+Werkzeug==0.16.1
+wsproto==1.2.0
