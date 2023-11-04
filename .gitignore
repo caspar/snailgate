@@ -58,6 +58,8 @@
 # Javascript
 **/*/node_modules
 **/*/npm-debug.log
+ui/client/node_modules/
+**/package-lock.json
 
 # Build directories
 build
@@ -75,6 +77,7 @@ Thumbs.db
 # Venv
 venv/
 nenv/
+venv*
 
 # Static files
 ui/server/static
