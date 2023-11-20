@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import json
 import time
 
 import forcesLib
@@ -265,7 +266,8 @@ def implicit_simulation(V, E, VP, EP, EL, VBR, hw, water_speed=0.0, k=0.01, max_
     # turn plotting on
     # plotLib.ion()
     # plotLib.show()
-
+    maximum_force = 0.0
+    id_of_maximum_force = -1
     for n in range(0, max_iterations - 1):
         print("Water level: " + str(hw))
 
@@ -299,6 +301,18 @@ def implicit_simulation(V, E, VP, EP, EL, VBR, hw, water_speed=0.0, k=0.01, max_
         forces[n, free_vertices] = FU[n]
         wl[n] = hw
 
+        # print(f"Type of forces: {type(forces)}")
+        # print(f"Type of one element of forces: {type(forces[n])}")
+        print(f"Iteration: {n}")
+        # print(f"Number of vertices: {num_v}")
+        print(f"forces: {forces[n]}")
+        # print the maximum value and the id of that max value from forces
+        # print(f"Max value: {np.max(forces[n])}")
+        # print(f"Max value id: {np.argmax(forces[n])}")
+        if np.max(forces[n]) > maximum_force:
+            maximum_force = np.max(forces[n])
+            id_of_maximum_force = np.argmax(forces[n])
+        
         # pause and update plot
         # plotLib.pause()
         # if n == 0:
@@ -327,8 +341,15 @@ def implicit_simulation(V, E, VP, EP, EL, VBR, hw, water_speed=0.0, k=0.01, max_
         if in_equilibrium:
             # computing new water level
             hw += water_speed * k
+    print(f"Maximum force: {maximum_force}")
+    print(f"Id of maximum force: {id_of_maximum_force}")
 
-
+    # convert nd array to list
+    forces_list = forces.tolist()
+    # save list as JSON file
+    with open('forces.json', 'w') as f:
+        json.dump(forces_list, f)
+    print(f"after writing to json")
 # Simulation is actually done by solving the ODE: w * x''(t) = F(x), where w is
 # weight (initially considered as '1'), x is position of the node and F(x) is
 # the force on the node.
