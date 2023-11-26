@@ -11,7 +11,7 @@ from flask import Flask, jsonify, render_template, request
 from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
-socket = SocketIO(app)
+socketio = SocketIO(app)
 # socketio = SocketIO(app, cors_allowed_origins="*")
 # CORS(app, resources={r'/*': {'origins': '*'}})
 
