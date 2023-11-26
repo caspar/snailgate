@@ -88,4 +88,5 @@ __pycache__
 
 .vscode/
 
-forces.json
+# ignore the results files
+results*

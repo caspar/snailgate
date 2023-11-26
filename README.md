@@ -34,7 +34,9 @@ Access application in any browser at (127.0.0.1 or 0.0.0.0 or localhost at port 
 
     http://127.0.0.1:5000/
 
-
+Results can be found in the two generated files:
+- `results_forces.json` contains the raw forces across all vertices and all timestamps
+- `results_data.txt` contains the digested results such as the maximum force observed in the system, the timestamp that it happened and the index (which is the corresponding vertex associated with the maximum force)
 # UI Stuff
 
 - libigl
