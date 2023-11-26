@@ -26,7 +26,7 @@ Build client:
 
     ./build_client.sh
 
-Start application:
+Start application (ignore eventlet errors, they do not affect functionality):
 
     ./start_server.sh
 
