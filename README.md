@@ -30,7 +30,7 @@ Start application:
 
     ./start_server.sh
 
-Access application in any browser at (127.0.0.1 or 0.0.0.0 or localhiost at port 5000):
+Access application in any browser at (127.0.0.1 or 0.0.0.0 or localhost at port 5000):
 
     http://127.0.0.1:5000/
 
