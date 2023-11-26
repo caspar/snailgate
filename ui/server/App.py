@@ -5,15 +5,17 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'simulation'
 
 import json
 
+import eventlet
 import simulatorLib
 from flask import Flask, jsonify, render_template, request
-# from flask_cors import CORS
+from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
-socketio = SocketIO(app)
-# socketio = SocketIO(app, cors_allowed_origins="*")
-# CORS(app, resources={r'/*': {'origins': '*'}})
+
+eventlet.monkey_patch()
+socketio = SocketIO(app, cors_allowed_origins="*", async_mode='eventlet')  # Use eventlet server
+CORS(app, resources={r'/*': {'origins': '*'}})
 
 scenariosDirectory = os.path.join(os.path.dirname(__file__), '..', '..', 'scenarios')
 
@@ -87,6 +89,13 @@ def cancelSimulation():
     global simulatorCanceled
     simulatorCanceled=True
 
+@socketio.on('connect')
+def connect():
+    print('connected')
+
+@socketio.on('*')
+def log():
+    print('received event')
 
 if __name__ == '__main__':
-    socketio.run(app)
+    socketio.run(app, debug=True)
