@@ -1,6 +1,40 @@
 Snailgate
 =========
 
+## Installation
+Clone the repository in the desired location:
+
+    git clone https://github.com/caspar/snailgate.git
+
+Go inside the repository:
+
+    cd snailgate
+
+Create a virtual enviornment:
+
+    python -m venv venv
+
+Activate the virtual environment:
+
+    source venv/bin/activate
+
+Install dependencies:
+
+    pip install -r requirements.txt
+
+Build client:
+
+    ./build_client.sh
+
+Start application:
+
+    ./start_server.sh
+
+Access application in any browser at (127.0.0.1 or 0.0.0.0 or localhiost at port 5000):
+
+    http://127.0.0.1:5000/
+
+
 # UI Stuff
 
 - libigl
