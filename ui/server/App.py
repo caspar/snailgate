@@ -7,10 +7,13 @@ import json
 
 import simulatorLib
 from flask import Flask, jsonify, render_template, request
-from flask_socketio import SocketIO
+# from flask_cors import CORS
+from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
-socketio = SocketIO(app)
+socket = SocketIO(app)
+# socketio = SocketIO(app, cors_allowed_origins="*")
+# CORS(app, resources={r'/*': {'origins': '*'}})
 
 scenariosDirectory = os.path.join(os.path.dirname(__file__), '..', '..', 'scenarios')
 
@@ -39,7 +42,7 @@ def emitBatch(U, F, wl, totalSteps):
         'totalSteps': totalSteps
     }
 
-    # socketio.emit('results', jsonResult, broadcast=True)
+    # socketio.emit.results', jsonResult, broadcast=True)
     socketio.emit('results', jsonResult)
 
 
