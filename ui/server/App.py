@@ -44,7 +44,6 @@ def emitBatch(U, F, wl, totalSteps):
         'totalSteps': totalSteps
     }
 
-    # socketio.emit.results', jsonResult, broadcast=True)
     socketio.emit('results', jsonResult)
 
 
@@ -89,13 +88,9 @@ def cancelSimulation():
     global simulatorCanceled
     simulatorCanceled=True
 
-@socketio.on('connect')
+@socketio.on('connect')  # to check connection
 def connect():
     print('connected')
 
-@socketio.on('*')
-def log():
-    print('received event')
-
 if __name__ == '__main__':
-    socketio.run(app, debug=True)
+    socketio.run(app)
