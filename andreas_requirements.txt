@@ -2,6 +2,7 @@ bidict==0.22.1
 click==6.7
 cycler==0.12.1
 Flask==0.12.1
+Flask-Cors==3.0.9
 Flask-SocketIO==5.3.6
 h11==0.14.0
 itsdangerous==2.0.1
