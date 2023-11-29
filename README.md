@@ -10,7 +10,7 @@ Go inside the repository:
 
     cd snailgate
 
-Create a virtual enviornment:
+Create a virtual enviornment with Python 3.9:
 
     python -m venv venv
 
