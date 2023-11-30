@@ -70,7 +70,7 @@ def plot_watergate_setup(V, E, EP, hw):
         else:
             seg_colors.append('m')
 
-    lc = LineCollection(segments, colors=seg_colors, linewidths=10, antialiased=True) 
+    lc = LineCollection(segments, colors=seg_colors, linewidths=2, antialiased=True)
     ax.add_collection(lc)
 
     # add the water level

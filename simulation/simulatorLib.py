@@ -1,10 +1,12 @@
 #!/usr/bin/env python
+import json
 import time
+
+import forcesLib
+import geometryLib
 import numpy as np
 import scipy as sp
 from scipy import optimize
-import forcesLib
-import geometryLib
 
 damping = 0.8
 
@@ -264,9 +266,10 @@ def implicit_simulation(V, E, VP, EP, EL, VBR, hw, water_speed=0.0, k=0.01, max_
     # turn plotting on
     # plotLib.ion()
     # plotLib.show()
-
+    maximum_force = 0.0
+    time_step_of_max_force = -1
     for n in range(0, max_iterations - 1):
-        # print("Water level: " + str(hw))
+        print("Water level: " + str(hw))
 
         # plot current setup
         # plotLib.plotWatergateSetup(U[n, :, 0:2], E, EP, hw)
@@ -298,6 +301,20 @@ def implicit_simulation(V, E, VP, EP, EL, VBR, hw, water_speed=0.0, k=0.01, max_
         forces[n, free_vertices] = FU[n]
         wl[n] = hw
 
+        print(f"Iteration: {n}")
+        print(f"forces: {forces[n]}")
+        print(f"type of forces: {type(forces[n])}")
+        print(f"forces[n].shape: {forces[n].shape}")
+
+        max_value_index = np.unravel_index(np.argmax(forces[n]), forces[n].shape)
+        max_value = forces[n][max_value_index]
+        # print(f"The maximum value is {max_value} at position {max_value_index}")    
+        # break
+        if max_value > maximum_force:
+            maximum_force = max_value
+            time_step_of_max_force = n
+            vertex_of_max_force = np.unravel_index(np.argmax(forces[n]), forces[n].shape)
+
         # pause and update plot
         # plotLib.pause()
         # if n == 0:
@@ -326,8 +343,22 @@ def implicit_simulation(V, E, VP, EP, EL, VBR, hw, water_speed=0.0, k=0.01, max_
         if in_equilibrium:
             # computing new water level
             hw += water_speed * k
+    print(f"Maximum force: {maximum_force}")
+    print(f"Time step of maximum force: {time_step_of_max_force}")
+    print(f"Vertex of maximum force: {vertex_of_max_force}")
 
-
+    # convert nd array to list
+    forces_list = forces.tolist()
+    # save list as JSON file
+    with open('results_forces.json', 'w') as f:
+        json.dump(forces_list, f)
+    with open('results_data.txt', 'w') as f:
+        f.write(f"Maximum force: {maximum_force}\n")
+        f.write(f"Time step of maximum force: {time_step_of_max_force}\n")
+        f.write(f"Vertex of maximum force: {vertex_of_max_force}\n")
+        f.write(f"Note that the vertex is the index of the vertex in the list of vertices, not the vertex number\n")
+        f.write(f"Add 1 to the vertex index to get the vertex number. e.g. if index is (3,5) then it denotes the 4th vertex \n")
+    print(f"after writing to json")
 # Simulation is actually done by solving the ODE: w * x''(t) = F(x), where w is
 # weight (initially considered as '1'), x is position of the node and F(x) is
 # the force on the node.

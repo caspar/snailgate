@@ -1,14 +1,21 @@
-import sys, os
+import os
+import sys
+
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'simulation'))
 
-from flask import Flask, request, render_template, jsonify
-from flask_socketio import SocketIO
-
-import simulatorLib
 import json
 
+import eventlet
+import simulatorLib
+from flask import Flask, jsonify, render_template, request
+from flask_cors import CORS
+from flask_socketio import SocketIO, emit
+
 app = Flask(__name__)
-socketio = SocketIO(app)
+
+eventlet.monkey_patch()
+socketio = SocketIO(app, cors_allowed_origins="*", async_mode='eventlet')  # Use eventlet server
+CORS(app, resources={r'/*': {'origins': '*'}})
 
 scenariosDirectory = os.path.join(os.path.dirname(__file__), '..', '..', 'scenarios')
 
@@ -37,7 +44,7 @@ def emitBatch(U, F, wl, totalSteps):
         'totalSteps': totalSteps
     }
 
-    socketio.emit('results', jsonResult, broadcast=True)
+    socketio.emit('results', jsonResult)
 
 
 simulatorCanceled = False
@@ -45,7 +52,7 @@ simulatorCanceled = False
 @app.route('/simulate', methods=['POST'])
 def simulate():
     print('parsing json')
-    postBody = request.get_json(force=True, silent=True, cache=False)
+    postBody = request.get_json()
 
     print(postBody)
 
@@ -61,7 +68,7 @@ def simulate():
         method = simulatorLib.implicit_simulation
         batchDuration = 1
     else:
-        return jsonify(success=false)
+        return jsonify(success=False)
 
     print('Running simulation!')
     global simulatorCanceled
@@ -81,6 +88,9 @@ def cancelSimulation():
     global simulatorCanceled
     simulatorCanceled=True
 
+@socketio.on('connect')  # to check connection
+def connect():
+    print('connected')
 
 if __name__ == '__main__':
     socketio.run(app)

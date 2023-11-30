@@ -1,6 +1,42 @@
 Snailgate
 =========
 
+## Installation
+Clone the repository in the desired location:
+
+    git clone https://github.com/caspar/snailgate.git
+
+Go inside the repository:
+
+    cd snailgate
+
+Create a virtual enviornment with Python 3.9:
+
+    python -m venv venv
+
+Activate the virtual environment:
+
+    source venv/bin/activate
+
+Install dependencies:
+
+    pip install -r requirements.txt
+
+Build client:
+
+    ./build_client.sh
+
+Start application (ignore eventlet errors, they do not affect functionality):
+
+    ./start_server.sh
+
+Access application in any browser at (127.0.0.1 or 0.0.0.0 or localhost at port 5000):
+
+    http://127.0.0.1:5000/
+
+Results can be found in the two generated files:
+- `results_forces.json` contains the raw forces across all vertices and all timestamps
+- `results_data.txt` contains the digested results such as the maximum force observed in the system, the timestamp that it happened and the index (which is the corresponding vertex associated with the maximum force)
 # UI Stuff
 
 - libigl
@@ -41,16 +77,6 @@ Set of frames with updated positions of verteces
 
 Install [node.js](https://nodejs.org/en/download/) for the javascript build system (webpack).
 
-
-For M1 Macbooks:
-
-brew install anaconda
-conda create --name snailgate_env python=3.8 scipy=1.5.0 matplotlib=3.2.0
-conda activate snailgate_env
-python -m pip install matplotlib==3.2.0 
-
-
-
 Install dependencies:
 
     pip install -r requirements.txt
@@ -64,7 +90,9 @@ Install linting tools globally, so that they work in the development environment
 ## Running the application
 
 Start the server:
-`cd ` 
+
+    ./start.sh
+
 Open the url `http://localhost:5000` in the browser.
 
 ## Running tests/linting tools
@@ -82,13 +110,3 @@ Build the javascript:
 Start the server in production mode:
 
     ./start_server_prod.sh
-    
-    
-    npm install
-Brew install node
-npm install -r requirements.txt
-cat requirements.txt
-git checkout felix-fixes
-./start-client.sh
-cd ui/server; python App.py
-> localhost:5000

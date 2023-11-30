@@ -1,12 +1,13 @@
 #!/usr/bin/env python
+import json
 import sys
+
 import plotLib
 import simulatorLib
-import json
 
 if len(sys.argv) != 2:
-    print "usage: ./simulator.py scenarioNumber"
-    print "example: ./simulator.py 1"
+    print("usage: ./simulator.py scenarioNumber")
+    print("example: ./simulator.py 1")
     sys.exit(-1)
 
 # Main
@@ -28,7 +29,7 @@ if sys.argv[1].isdigit():
         V, E, VP, EP, EL, VBR, hw = simulatorLib.setup_original_watergate_example7()
 
     else:
-        print "No scenario with this number"
+        print("No scenario with this number")
         sys.exit(-1)
 else:
     data_file = open(sys.argv[1])
@@ -43,4 +44,4 @@ time_step = 0.0001
 for U, F, wl, totalSteps in simulatorLib.implicit_simulation(V, E, VP, EP, EL, VBR, hw, water_speed, time_step, 5000, 8000):
     # draw simulation
     #plotLib.draw_simulation(U, F[:, :, 0:2], E, EP, hw, water_speed, time_step, 2)
-    print "Finish"
+    print("Finish")

@@ -1,0 +1,3 @@
+Maximum force: 4659.295009428921
+Time step of maximum force: 8
+Vertex of maximum force: (3, 5)
