@@ -37,6 +37,39 @@ Access application in any browser at (127.0.0.1 or 0.0.0.0 or localhost at port 
 Results can be found in the two generated files:
 - `results_forces.json` contains the raw forces across all vertices and all timestamps
 - `results_data.txt` contains the digested results such as the maximum force observed in the system, the timestamp that it happened and the index (which is the corresponding vertex associated with the maximum force)
+
+# Build and run local image in Docker
+Make sure you have Docker downloaded and have the daemon running.
+https://docs.docker.com/get-docker/ 
+
+Build local image:
+```bash
+docker compose build
+```
+
+Run the service in detached mode:
+```bash
+docker compose up -d -V
+```
+
+For codebase updates:
+```bash
+docker compose up -d -V --force-recreate
+```
+
+# Pull Image from Docker Hub
+Pull client and server images
+```bash
+docker pull xyz010/snailgate-client
+docker pull xyz010/snailgate-server
+```
+
+Run the images
+```bash
+docker run xyz010/snailgate-client
+docker run xyz010/snailgate-server
+```
+
 # UI Stuff
 
 - libigl
