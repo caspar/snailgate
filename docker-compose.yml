@@ -1,0 +1,12 @@
+version: '0.0.1'
+services:
+  server:
+    build:
+      context: .
+      dockerfile: ./ui/server/Dockerfile
+    ports:
+      - 5000:5000
+  client:
+    build: ./ui/client
+    ports:
+      - 80:80
